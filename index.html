@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#12356a">
+  <meta name="description"
+    content="Organize your studies, manage assignments, and track your learning progress with the ATU Student Study Planner.">
+  <title>ATU Study Planner</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="ATU Study Planner home">
+        <!-- Ensure your saved logo file matches this filename exactly (e.g., atu_logo.png) -->
+        <img src="atu_logo.png" alt="Accra Technical University logo" onerror="this.src='ATU_logo.png'">
+        <span class="brand-text">
+          <strong>ATU Study Planner</strong>
+          <small>Plan smart. Study better.</small>
+        </span>
+      </a>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span id="themeIcon" aria-hidden="true">☾</span>
+        <span id="themeLabel">Dark mode</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="welcome-section">
+        <div class="welcome-copy">
+          <span class="eyebrow">YOUR ACADEMIC COMPANION</span>
+          <h1>Make today <span>count.</span></h1>
+          <p>Every task completed is another step toward your goals.</p>
+        </div>
+
+        <div class="clock-card">
+          <span class="clock-label">YOUR LOCAL TIME</span>
+          <time id="liveClock">--:--:--</time>
+          <div class="date-line" id="liveDate">Loading date...</div>
+          <span class="live-indicator"><span></span> LIVE CLOCK</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Study statistics">
+        <article class="stat-card">
+          <div class="stat-icon total-icon" aria-hidden="true">▤</div>
+          <div>
+            <p>Total tasks</p>
+            <strong id="totalTasks">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon completed-icon" aria-hidden="true">✓</div>
+          <div>
+            <p>Completed</p>
+            <strong id="completedTasks">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon pending-icon" aria-hidden="true">◷</div>
+          <div>
+            <p>Remaining</p>
+            <strong id="remainingTasks">0</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="progress-card" aria-label="Study progress">
+        <div class="progress-heading">
+          <div>
+            <h2>Your progress</h2>
+            <p>Small steps lead to great achievements.</p>
+          </div>
+          <strong id="progressPercent">0%</strong>
+        </div>
+
+        <div class="progress-track" id="progressTrack" role="progressbar" aria-label="Tasks completed" aria-valuemin="0"
+          aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-caption" id="progressCaption">
+          Add a task to begin your study journey.
+        </p>
+      </section>
+
+      <section class="planner-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">STAY ORGANIZED</span>
+            <h2>My study tasks</h2>
+            <p>Capture your assignments and keep moving forward.</p>
+          </div>
+        </div>
+
+        <form id="taskForm" class="task-form">
+          <div class="field-group">
+            <label for="taskTitle">Task title</label>
+            <input id="taskTitle" name="taskTitle" type="text" maxlength="120" placeholder="e.g. Revise Mathematics"
+              autocomplete="off" required>
+          </div>
+
+          <div class="field-group">
+            <label for="taskSubject">Subject / course</label>
+            <input id="taskSubject" name="taskSubject" type="text" maxlength="80" placeholder="e.g. Computer Science"
+              autocomplete="off" required>
+          </div>
+
+          <button class="add-button" type="submit">
+            <span aria-hidden="true">＋</span>
+            Add task
+          </button>
+        </form>
+
+        <div class="task-toolbar">
+          <div class="task-count">
+            <h3>Task list</h3>
+            <span class="count-badge" id="listCount">0</span>
+          </div>
+
+          <label class="filter-wrapper" for="taskFilter">
+            <span class="visually-hidden">Filter tasks</span>
+            <select id="taskFilter">
+              <option value="all">All tasks</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="task-list" id="taskList" aria-live="polite">
+          <!-- Task cards created dynamically -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon" aria-hidden="true">✎</div>
+          <h3 id="emptyTitle">Your study journey starts here</h3>
+          <p id="emptyMessage">
+            Add your first task above and take control of your studies.
+          </p>
+        </div>
+      </section>
+
+      <section class="motivation-card">
+        <div class="motivation-symbol" aria-hidden="true">✦</div>
+        <div>
+          <h2>Consistency beats intensity.</h2>
+          <p>Focus on what you can accomplish today. Your future self will thank you.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="currentYear"></span> ATU Study Planner</p>
+      <p>Built for better learning, one task at a time.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+
+</html>
