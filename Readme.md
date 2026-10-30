@@ -1,19 +1,21 @@
 # ATU Student Study Planner Web Application
 
-A clean, responsive, and beginner-friendly Student Study Planner web application built for the Accra Technical University (ATU) Virtual Internship Software Development Individual Mini Project.
+A clean, responsive, and feature-rich Student Study Planner web application built for the Accra Technical University (ATU) Virtual Internship Software Development Individual Mini Project.
 
-## Features
-- **Add Study Tasks:** Add tasks with a custom task title and subject/course name.
-- **Task Management:** Mark tasks as complete, toggle them back to pending, and delete tasks.
-- **Local Storage Persistence:** All tasks are securely saved in browser local storage so they remain visible after page refreshes.
-- **Input Validation:** Prevents blank task submissions with helpful error feedback.
-- **Dark & Light Mode:** Seamlessly switch between themes for a comfortable study experience.
-- **Live Academic Clock:** Real-time clock display for effective time tracking.
+##  Features & Enhancements
+- **Task Management:** Add study tasks with custom titles and course/subject names.
+- **Interactive Notifications:** Instant animated Toast feedback alerts when adding, completing, or deleting tasks.
+- **Completion Tracking:** Mark tasks as complete with instant progress bar percentage updates and clear visual status indicators.
+- **Persistent Storage:** All tasks are securely saved using browser `localStorage` to survive page refreshes.
+- **Input Validation:** Prevents blank submissions with feedback alerts.
+- **Theme Switcher:** Seamless toggle between light mode and dark mode.
+- **Live Academic Clock:** Real-time clock display.
+- **Fully Responsive:** Optimized for both desktop displays and mobile smartphones (tested on Samsung devices).
 
-## Technologies Used
+## 🛠️ Technologies Used
 - HTML5 (Semantic Structure)
-- CSS3 (Responsive Design & ATU Academic Styling)
-- JavaScript (DOM Manipulation & LocalStorage API)
+- CSS3 (Responsive Flexbox, Grid, & Smooth Transitions)
+- Vanilla JavaScript (DOM Manipulation & LocalStorage API)
 
-## Author
+## 👨‍💻 Author
 - jerry -kay19
