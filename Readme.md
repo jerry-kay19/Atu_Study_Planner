@@ -13,7 +13,7 @@ A clean, responsive, and beginner-friendly Student Study Planner web application
 ## Technologies Used
 - HTML5 (Semantic Structure)
 - CSS3 (Responsive Design & ATU Academic Styling)
-- Vanilla JavaScript (DOM Manipulation & LocalStorage API)
+- JavaScript (DOM Manipulation & LocalStorage API)
 
 ## Author
 - jerry -kay19
