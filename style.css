@@ -371,7 +371,7 @@ select {
 @media (min-width: 768px) {
   .task-form {
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
     align-items: end;
   }
 }
@@ -391,6 +391,11 @@ select {
   background: var(--surface-alt);
   color: var(--text);
   font-size: 0.9rem;
+}
+
+.field-group input:focus {
+  outline: 2px solid color-mix(in srgb, var(--blue) 35%, transparent);
+  outline-offset: 1px;
 }
 
 .add-button {
@@ -538,6 +543,59 @@ select {
   margin-top: 4px;
   color: var(--muted);
   font-size: 0.7rem;
+}
+
+.task-due {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 8px;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.due-label {
+  color: var(--muted);
+}
+
+.countdown {
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #e9efff;
+  color: var(--blue);
+}
+
+.task-due.is-urgent .countdown {
+  animation: timer-pulse 1.4s ease-in-out infinite;
+  background: #fff0d6;
+  color: #a45b00;
+}
+
+.task-due.is-overdue .countdown {
+  background: #ffe2e2;
+  color: #bd3030;
+}
+
+@keyframes timer-pulse {
+  50% {
+    box-shadow: 0 0 0 4px rgba(227, 181, 45, 0.15);
+  }
+}
+
+html[data-theme="dark"] .countdown {
+  background: #27395c;
+}
+
+html[data-theme="dark"] .task-due.is-urgent .countdown {
+  background: #4a391d;
+  color: #f1c64d;
+}
+
+html[data-theme="dark"] .task-due.is-overdue .countdown {
+  background: #512b35;
+  color: #ff9a9a;
 }
 
 .task-item.is-complete .task-title {

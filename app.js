@@ -3,18 +3,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const taskForm = document.getElementById('taskForm');
   const taskTitleInput = document.getElementById('taskTitle');
   const taskSubjectInput = document.getElementById('taskSubject');
+  const taskDateInput = document.getElementById('task-date');
+  const taskTimeInput = document.getElementById('task-time');
   const taskList = document.getElementById('taskList');
-  const totalCountEl = document.getElementById('totalCount');
-  const completedCountEl = document.getElementById('completedCount');
-  const pendingCountEl = document.getElementById('pendingCount');
+  const listCountEl = document.getElementById('listCount');
+  const totalCountEl = document.getElementById('totalTasks');
+  const completedCountEl = document.getElementById('completedTasks');
+  const pendingCountEl = document.getElementById('remainingTasks');
   const progressPercentEl = document.getElementById('progressPercent');
   const progressFillEl = document.getElementById('progressFill');
-  const filterSelect = document.getElementById('filterSelect');
+  const filterSelect = document.getElementById('taskFilter');
   const emptyState = document.getElementById('emptyState');
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
   const liveClock = document.getElementById('liveClock');
-  const currentDateEl = document.getElementById('currentDate');
+  const currentDateEl = document.getElementById('liveDate');
   const toast = document.getElementById('toast');
 
   // Load Tasks from LocalStorage
@@ -70,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const title = taskTitleInput.value.trim();
     const subject = taskSubjectInput.value.trim();
+    const dueDate = taskDateInput.value;
+    const dueTime = taskTimeInput.value;
 
     if (!title) {
       showToast('Please enter a valid task title.');
@@ -82,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
       title,
       subject: subject || 'General Study',
       completed: false,
-      dateAdded: new Date().toLocaleDateString()
+      dateAdded: new Date().toLocaleDateString(),
+      dueAt: createDueDate(dueDate, dueTime)
     };
 
     tasks.unshift(newTask);
@@ -118,6 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
     updateStats();
   }
 
+  function createDueDate(date, time) {
+    if (!date && !time) {
+      return null;
+    }
+
+    const datePart = date || getLocalDateString(new Date());
+    return new Date(`${datePart}T${time || '23:59'}`).toISOString();
+  }
+
+  function getLocalDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   // Filter Event
   filterSelect.addEventListener('change', renderTasks);
 
@@ -149,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="task-content">
             <h3 class="task-title">${escapeHTML(task.title)}</h3>
             <span class="task-subject">${escapeHTML(task.subject)}</span>
-            <span class="task-date">Added: ${task.dateAdded}</span>
+            <span class="task-date">Added: ${escapeHTML(task.dateAdded)}</span>
+            ${getDueMarkup(task)}
           </div>
         </div>
         <div class="task-actions">
@@ -158,6 +181,57 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       taskList.appendChild(item);
+    });
+  }
+
+  function getDueMarkup(task) {
+    if (!task.dueAt) {
+      return '';
+    }
+
+    const dueDate = new Date(task.dueAt);
+    if (Number.isNaN(dueDate.getTime())) {
+      return '';
+    }
+
+    return `
+      <span class="task-due" data-due-at="${dueDate.toISOString()}">
+        <span class="due-label">Due ${dueDate.toLocaleString([], {
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        })}</span>
+        <strong class="countdown">${getCountdownText(dueDate)}</strong>
+      </span>
+    `;
+  }
+
+  function getCountdownText(dueDate) {
+    const difference = dueDate.getTime() - Date.now();
+    if (difference < 0) {
+      return 'Overdue';
+    }
+
+    const totalSeconds = Math.floor(difference / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (days > 0) {
+      return `${days}d ${hours}h remaining`;
+    }
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} remaining`;
+  }
+
+  function updateCountdowns() {
+    document.querySelectorAll('.task-due').forEach(dueElement => {
+      const dueDate = new Date(dueElement.dataset.dueAt);
+      const difference = dueDate.getTime() - Date.now();
+      const countdown = dueElement.querySelector('.countdown');
+
+      countdown.textContent = getCountdownText(dueDate);
+      dueElement.classList.toggle('is-overdue', difference < 0);
+      dueElement.classList.toggle('is-urgent', difference >= 0 && difference <= 3600000);
     });
   }
 
@@ -171,17 +245,19 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCountEl.textContent = total;
     completedCountEl.textContent = completed;
     pendingCountEl.textContent = pending;
+    listCountEl.textContent = total;
     progressPercentEl.textContent = `${percent}%`;
     progressFillEl.style.width = `${percent}%`;
   }
 
   // Security Helper
   function escapeHTML(str) {
-    return str.replace(/[&<>'"]/g, 
+    return String(str || '').replace(/[&<>'"]/g,
       tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)
     );
   }
 
   // Initial render
   saveAndRender();
+  setInterval(updateCountdowns, 1000);
 });

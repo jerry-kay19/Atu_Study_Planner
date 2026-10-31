@@ -10,6 +10,7 @@ A clean, responsive, and feature-rich Student Study Planner web application buil
 - **Input Validation:** Prevents blank submissions with feedback alerts.
 - **Theme Switcher:** Seamless toggle between light mode and dark mode.
 - **Live Academic Clock:** Real-time clock display.
+- **Task Timers:** Optional due dates and times with live countdowns, urgent timer animation, and overdue indicators.
 - **Fully Responsive:** Optimized for both desktop displays and mobile smartphones (tested on Samsung devices).
 
 ## 🛠️ Technologies Used
