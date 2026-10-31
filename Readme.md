@@ -13,10 +13,10 @@ A clean, responsive, and feature-rich Student Study Planner web application buil
 - **Task Timers:** Optional due dates and times with live countdowns, urgent timer animation, and overdue indicators.
 - **Fully Responsive:** Optimized for both desktop displays and mobile smartphones (tested on Samsung devices).
 
-## 🛠️ Technologies Used
+##  Technologies Used
 - HTML5 (Semantic Structure)
 - CSS3 (Responsive Flexbox, Grid, & Smooth Transitions)
 - Vanilla JavaScript (DOM Manipulation & LocalStorage API)
 
-## 👨‍💻 Author
+## Author
 - jerry -kay19
